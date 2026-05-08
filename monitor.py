@@ -26,11 +26,14 @@ STATUSES = ["RESERVED", "PRODUCING", "CONFIRMED", "RELEASE", "REJECTED"]
 
 def load_orders() -> List[dict]:
     if not os.path.exists(DB_PATH):
+        print(f"  [알림] DB 파일 없음: {DB_PATH}")
+        print(f"  [알림] 환경변수 ORDER_DB_PATH 로 경로 지정 가능합니다.")
         return []
     with open(DB_PATH, "r", encoding="utf-8") as f:
         try:
             return json.load(f)
         except json.JSONDecodeError:
+            print(f"  [경고] JSON 파싱 오류: {DB_PATH}")
             return []
 
 
