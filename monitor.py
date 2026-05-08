@@ -44,9 +44,10 @@ def render_dashboard(orders: List[dict]) -> None:
     print(f"\n  [상태별 현황]")
     for s in STATUSES:
         count = status_counts.get(s, 0)
+        pct = (count / total * 100) if total else 0
         filled = min(count, 20)
         bar = "#" * filled + "-" * (20 - filled)
-        print(f"    {s:<12} |{bar}|  {count}건")
+        print(f"    {s:<12} |{bar}|  {count:>3}건  ({pct:4.1f}%)")
 
     print(f"\n  [최근 주문 5건]")
     if not orders:
