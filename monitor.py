@@ -68,13 +68,13 @@ def render_dashboard(orders: List[dict]) -> None:
     print("=" * 70)
 
 
-def run_monitor() -> None:
-    print(f"DataMonitor 시작 (DB: {DB_PATH}, 갱신: {REFRESH_INTERVAL}초)")
+def run_monitor(interval: int = REFRESH_INTERVAL) -> None:
+    print(f"DataMonitor 시작 (DB: {DB_PATH}, 갱신: {interval}초)")
     try:
         while True:
             orders = load_orders()
             clear_screen()
             render_dashboard(orders)
-            time.sleep(REFRESH_INTERVAL)
+            time.sleep(interval)
     except KeyboardInterrupt:
         print("\n모니터 종료.")
