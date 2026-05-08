@@ -15,8 +15,8 @@ if __name__ == "__main__":
                         help="대시보드를 한 번만 출력하고 종료 (기본: 반복 갱신)")
     parser.add_argument("--interval", type=int, default=REFRESH_INTERVAL,
                         help=f"갱신 주기(초) (기본: {REFRESH_INTERVAL}초)")
-    parser.add_argument("--path", type=str, default=None,
-                        help="모니터링할 orders.json 경로 (환경변수 ORDER_DB_PATH 대신 사용)")
+    parser.add_argument("--path", "--db", type=str, default=None, dest="path",
+                        help="모니터링할 orders.json 경로 (환경변수 ORDER_DB_PATH 대신 사용, --db 별칭 사용 가능)")
     args = parser.parse_args()
 
     if args.path:
