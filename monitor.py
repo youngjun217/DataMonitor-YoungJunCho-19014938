@@ -45,7 +45,7 @@ def render_dashboard(orders: List[dict]) -> None:
     released = sum(1 for o in orders if o.get("status") == "RELEASE")
 
     print("=" * 70)
-    print(f"  ORDER DATA MONITOR  |  {now}  |  DB: {DB_PATH}")
+    print(f"  주문 데이터 모니터  |  {now}  |  DB: {DB_PATH}")
     print("=" * 70)
 
     print(f"\n  [요약]")
