@@ -1,9 +1,20 @@
 import json
 import os
 import time
+import unicodedata
 from collections import Counter
 from datetime import datetime
 from typing import List
+
+
+def _dw(s: str) -> int:
+    return sum(2 if unicodedata.east_asian_width(c) in ("W", "F") else 1 for c in s)
+
+def _ljust(s: str, w: int) -> str:
+    return s + " " * max(0, w - _dw(s))
+
+def _rjust(s: str, w: int) -> str:
+    return " " * max(0, w - _dw(s)) + s
 
 
 DB_PATH = os.environ.get("ORDER_DB_PATH", "data/orders.json")
@@ -54,14 +65,16 @@ def render_dashboard(orders: List[dict]) -> None:
         print("    데이터 없음")
     else:
         recent = sorted(orders, key=lambda o: o.get("created_at", ""), reverse=True)[:5]
-        print(f"    {'ID':<10} {'고객명':<15} {'상태':<12} {'수량':>5}  {'납기일'}")
-        print("    " + "-" * 57)
+        print("    " + _ljust("ID", 10) + " " + _ljust("고객명", 16) + " " +
+              _ljust("상태", 12) + " " + _rjust("수량", 5) + "  납기일")
+        print("    " + "-" * 60)
         for o in recent:
             print(
-                f"    {o['id']:<10} {o['customer_name']:<15} "
-                f"{o.get('status', '?'):<12} "
-                f"{o.get('quantity', 0):>5}개  "
-                f"{o.get('due_date', '')}"
+                "    " + _ljust(o["id"], 10) + " " +
+                _ljust(o.get("customer_name", ""), 16) + " " +
+                _ljust(o.get("status", "?"), 12) + " " +
+                _rjust(f"{o.get('quantity', 0)}개", 5) + "  " +
+                o.get("due_date", "")
             )
 
     print(f"\n  갱신 주기: {REFRESH_INTERVAL}초  |  Ctrl+C 로 종료")
