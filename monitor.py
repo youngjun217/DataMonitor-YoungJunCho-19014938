@@ -51,9 +51,9 @@ def render_dashboard(orders: List[dict]) -> None:
     print(f"  주문 데이터 모니터  |  {now}  |  DB: {DB_PATH}")
     print("=" * 70)
 
+    active = sum(1 for o in orders if o.get("status") not in ("RELEASE", "REJECTED"))
     print(f"\n  [요약]")
-    print(f"    총 주문     : {total}건")
-    print(f"    출고 완료   : {released}건")
+    print(f"    총 주문     : {total}건  (진행중: {active}건 / 출고완료: {released}건)")
 
     print(f"\n  [상태별 현황]")
     for s in STATUSES:
